@@ -19,7 +19,7 @@ function App() {
       <Link to="/Original">Original</Link>
       <Link to="/Informativa">Informativa</Link>
       <Link to="/Usuario">Usuario</Link>
-      <Link to="/equipo/:equipo">equipo</Link>
+      <Link to="/equipo">equipo</Link>
     <Routes >
       <Route path ="/" element ={<Home /> } />
       <Route path = "/Favoritos" element ={<Favoritos />} />
