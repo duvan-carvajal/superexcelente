@@ -29,7 +29,7 @@ interface TeamData {
   };
 }
 
-const [data, setData] = useState<TeamData | null>(null);
+
 
 function Equipo() {
   const { equipo } = useParams<{ equipo: string }>();

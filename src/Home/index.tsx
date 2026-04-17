@@ -1,5 +1,13 @@
+import { Link } from 'react-router'
 import { useState, useEffect } from 'react'
-import { Link } from "react-router"
+import "./style.css"
+const filtros: FiltroTipo[] = [
+  'posiciones',
+  'goleador',
+  'asistencias',
+  'amarillas',
+  'atajadas'
+]
 interface Ranking {
   rank: number
   contestantName: string
@@ -7,8 +15,10 @@ interface Ranking {
   matchesPlayed: number
 }
 
+type FiltroTipo = 'posiciones' | 'goleador' | 'asistencias' | 'amarillas' | 'atajadas'
+
 function Home() {
-  
+  const [filtro, setFiltro] = useState<FiltroTipo>('posiciones')
   const [ranking, setRanking] = useState<Ranking[]>([])
   const [title, setTitle] = useState('')
 
@@ -28,30 +38,43 @@ function Home() {
     fetchData()
   }, [])
 
-  const equiposMap: Record<string, string> = {
-  "América de Cali SA": "america-de-cali",
-  "CA Bucaramanga": "atletico-bucaramanga",
-  "Club Atlético Nacional SA": "atletico-nacional",
-  "Club Deportes Tolima SA": "deportes-tolima",
-  "Asociación Deportivo Cali": "deportivo-cali",
-  "Deportivo Independiente Medellín": "independiente-medellin",
-  "Club Independiente Santa Fe": "independiente-santa-fe",
-  "CD Popular Junior FC SA": "junior",
-  "Millonarios FC": "millonarios",
-  "Once Caldas SA": "once-caldas",
+    const equiposMap: Record<string, string> = {
+    "América de Cali SA": "america-de-cali",
+    "CA Bucaramanga": "atletico-bucaramanga",
+    "Club Atlético Nacional SA": "atletico-nacional",
+    "Club Deportes Tolima SA": "deportes-tolima",
+    "Asociación Deportivo Cali": "deportivo-cali",
+    "Deportivo Independiente Medellín": "independiente-medellin",
+    "Club Independiente Santa Fe": "independiente-santa-fe",
+    "CD Popular Junior FC SA": "junior",
+    "Millonarios FC": "millonarios",
+    "Once Caldas SA": "once-caldas",
 
-  "Internacional de Bogotá": "internacional-bogota",
-  "Club Llaneros SA": "llaneros",
-  "Águilas Doradas": "aguilas-doradas",
-  "Fortaleza FC": "fortaleza",
-  "Alianza FC": "alianza",
-  "Jaguares de Córdoba FC": "jaguares",
-  "Cúcuta Deportivo FC": "cucuta",
-  "Boyacá Chicó FC": "boyaca-chico",
-  "Deportivo Pereira FC": "pereira"
-};
-  
+    "Internacional de Bogotá": "internacional-bogota",
+    "Club Llaneros SA": "llaneros",
+    "Águilas Doradas": "aguilas-doradas",
+    "Fortaleza FC": "fortaleza",
+    "Alianza FC": "alianza",
+    "Jaguares de Córdoba FC": "jaguares",
+    "Cúcuta Deportivo FC": "cucuta",
+    "Boyacá Chicó FC": "boyaca-chico",
+    "Deportivo Pereira FC": "pereira"
+  };
+
   return (
+  <>
+    <div className="filtros">
+      {filtros.map((onestat) => (
+        <button
+          key={onestat}
+          onClick={() => setFiltro(onestat)}
+          className={filtro === onestat ? 'activo' : ''}
+        >
+          {onestat}
+        </button>
+      ))}
+    </div>
+
     <div className="tabla-container">
       <h2>{title}</h2>
       <table className="tabla-posiciones">
@@ -65,14 +88,13 @@ function Home() {
         </thead>
         <tbody>
           {ranking.map((equipo) => (
-            <tr key={equipo.rank}>
+            <tr key={`${equipo.rank}-${equipo.contestantName}`}>
               <td>{equipo.rank}</td>
-              <Link to={`/equipo/${equiposMap[equipo.contestantName] ||
-                "default"
-              }`}>
-              
-              <td> {equipo.contestantName}</td>
-              </Link>
+              <td>
+                <Link to={`/equipo/${equiposMap[equipo.contestantName] || "default"}`}>
+                  {equipo.contestantName}
+                </Link>
+              </td>
               <td>{equipo.matchesPlayed}</td>
               <td>{equipo.points}</td>
             </tr>
@@ -80,7 +102,8 @@ function Home() {
         </tbody>
       </table>
     </div>
-  )
+  </>
+)
 }
 
 export default Home

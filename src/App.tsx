@@ -4,7 +4,7 @@ import Favoritos from './Favoritos'
 import Informativa from './Informativa'
 import Usuario from './Usuario'
 import Original from './Original'
-import Equipos from './Equipos'
+import Equipo from './Equipos'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router';
 
 import './App.css'
@@ -26,7 +26,7 @@ function App() {
       <Route path = "/Original" element ={<Original />} />
       <Route path = "/Informativa" element ={<Informativa />} />
       <Route path = "/Usuario" element ={<Usuario />} />
-      <Route path = "/equipo/:equipo" element = {<Equipos />} />
+      <Route path = "/equipo/:equipo" element = {<Equipo />} />
 
     </Routes>
   </Router>
