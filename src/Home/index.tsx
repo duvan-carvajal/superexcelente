@@ -31,6 +31,19 @@ function Home() {
   const [ranking, setRanking] = useState<Ranking[]>([])
   const [title, setTitle] = useState('')
   const [estadisticas, setEstadisticas] = useState<Estadistica[]>([]);
+  const [busqueda, setBusqueda] = useState('')
+  const rankingFiltrado = ranking.filter((equipo) =>
+    busqueda.length < 3
+      ? true  // muestra todos si hay menos de 3 caracteres
+      : equipo.contestantName.toLowerCase().includes(busqueda.toLowerCase())
+  )
+        const estadisticasFiltradas = estadisticas.filter((jugador) =>
+    busqueda.length < 3
+      ? true  // muestra todos
+      : jugador.name.toLowerCase().includes(busqueda.toLowerCase()) ||
+        jugador.contestantName.toLowerCase().includes(busqueda.toLowerCase())
+  )
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,7 +107,10 @@ function Home() {
       <input
         type="text"
         placeholder="Buscar..."
+        value={busqueda}
+        onChange={(e) => setBusqueda(e.target.value)}
       />
+
 
       <div className="tabla-container">
         <h2>{title}</h2>
@@ -109,7 +125,7 @@ function Home() {
               </tr>
             </thead>
             <tbody>
-              {ranking.map((equipo) => (
+              {rankingFiltrado.map((equipo) => (
                 <tr key={equipo.rank}
                     
                 >
@@ -137,7 +153,7 @@ function Home() {
               </tr>
             </thead>
             <tbody>
-              {estadisticas.map((jugador, index) => (
+              {estadisticasFiltradas.map((jugador, index) => (
                 <tr key={index}
                     
                 >
